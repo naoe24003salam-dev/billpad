@@ -41,19 +41,3 @@ python -m pytest
   `billpad/discounts.py` before it is applied: an unknown code or a
   code past its expiry date stops the bill with an error message, so
   a code is never taken on trust at the counter.
-
-## How discount codes are run here
-
-The codes are a shop decision, not a software decision. They live
-in the table in `billpad/discounts.py`, and the only person who
-edits that table is the owner. When a campaign ends, the code comes
-out of the table — that is how a code "expires" in this project.
-
-The billing code itself does not second-guess the table. If a code
-is in the table, its percent is applied; if it is not in the table,
-there is nothing to apply. There is deliberately no expiry-date
-check in the bill path: during the January sale an old date check
-rejected a code the shop was still advertising, and the fix was to
-stop letting the software overrule the table. `validate_code()`
-stays in the codebase only because the month-end report script
-imports it — it is not part of making a bill.
